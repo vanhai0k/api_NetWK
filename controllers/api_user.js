@@ -1,6 +1,5 @@
 const { error } = require('console');
-const UserModel = require('../models/user.model');
-const loginUserService = require('../service/UserService')
+const UserModel = require('../models/model.model');
 
 
 exports.listUser = async (req, res, next) => {
@@ -77,52 +76,6 @@ exports.deleteUser = async (req, res, next) => {
     res.json(dataR);
     console.log(dataR);
 }
-exports.lisetComment = async (req, res, next) => {
-    let dataR = {
-        status: 1,
-        msg: "Danh sach comment"
-    }
-
-    let list = [];
-    try {
-        list = await UserModel.binhluanModel.find();
-        dataR.data = list;
-
-    } catch (err) {
-        dataR.msg = err.message;
-    }
-    //trả về client
-    res.json(dataR);
-    console.log(dataR);
-
-}
-
-exports.postComment = async (req, res, next) => {
-    let dataR = {
-        status: 1,
-        msg: "Post comment"
-    }
-
-    if (req.method == 'POST') {
-        let obj = UserModel.binhluanModel();
-
-        obj.iduser = req.body.user;
-        obj.comment = req.body.comment;
-
-        try {
-            let new_commnent = await obj.save();
-
-            console.log(new_commnent);
-            console.log("Post comment");
-        } catch (err) {
-            console.log(err);
-            msg = 'Lỗi ' + error.message;
-        }
-    }
-    res.json(dataR);
-    console.log(dataR);
-}
-
 exports.loginUser = async (req, next, res) => {
     let dataR = {
         status: 1,

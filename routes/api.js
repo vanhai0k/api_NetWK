@@ -1,14 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var Cookie = require('cookie-parser')
-
-
 var apiPro = require('../controllers/api');
 var apiUser = require('../controllers/api_user');
-const ProModel = require('../models/product.model');
-const UserModel = require('../models/user.model');
-
-const bcrypt = require('bcrypt');
+const ProModel = require('../models/model.model');
 
 
 // sp
@@ -40,61 +34,6 @@ router.get('/comment/:idproduct', async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
-
-router.post('/signin', async (req, res) => {
-    let { username, passwd } = req.body;
-    username = username.trim();
-    passwd = passwd.trim();
-
-    if (username == "" || passwd == "") {
-        res.json({
-            status: "fail",
-            message: "Empty credentials"
-        })
-    } else {
-        UserModel.userModel.find({ username })
-            .then(data => {
-                if (data.length) {
-
-                    const hanshedPass = data[0].passwd;
-                    bcrypt.compare(passwd, hanshedPass).then(result => {
-                        if (result) {
-                            res.json({
-                                status: "success",
-                                message: "thanh cong",
-                                data: data
-                            });
-                        } else {
-                            res.json({
-                                status: "fail",
-                                message: "invalid pass"
-                            });
-                        }
-                    })
-                        .catch((err) => {
-                            res.json({
-                                status: "fail",
-                                message: "an error"
-                            })
-                        })
-                } else {
-                    res.json({
-                        status: "fail",
-                        message: "Invalid cre"
-                    })
-                }
-            })
-            .catch(err => {
-                res.json({
-                    status: "fail",
-                    message: "an error"
-                })
-            })
-    }
-})
-
-// router.post('/login', apiUser.loginUser)
-
 
 
 module.exports = router;

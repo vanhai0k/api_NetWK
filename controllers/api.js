@@ -1,4 +1,4 @@
-const ProModel = require('../models/product.model');
+const ProModel = require('../models/model.model');
 
 exports.listProduct = async (req, res, next) => {
     let dataR = {
