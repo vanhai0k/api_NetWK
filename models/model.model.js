@@ -10,8 +10,6 @@ const productSchema = new db.mongoose.Schema({
     xuatsu: { type: String, require: true },
     phongcach: { type: String, require: true },
     infomation: { type: String, require: true },
-    idcomment: {type: db.mongoose.Schema.Types.ObjectId,ref:'binhluanModel'}
-
 },
 {
     collection:'product' // xac dinh ten bang
@@ -19,9 +17,9 @@ const productSchema = new db.mongoose.Schema({
 );
 const binhluanSchema = new db.mongoose.Schema({
     // idproduct : {type: db.mongoose.Schema.Types.ObjectId, required: false, ref: 'productModel'},
-    idproduct: {type: String, required:false},
-    iduser: {type: String, required:false},
-    comment: {type: String, required:false}
+    id_product: {type: db.mongoose.Schema.Types.ObjectId,ref:'productModel'},
+    id_user: {type: db.mongoose.Schema.Types.ObjectId, ref: 'userModel'},
+    comment: {type: String, required:true}
 },{
     collection: 'binhluan'
 });
@@ -40,9 +38,40 @@ const userSchema = new db.mongoose.Schema(
     }
 ); 
 
+const giohangSchema = new db.mongoose.Schema({
+    image: { type: String, require: true },
+    title: { type: String, require: true },
+    pricegh: { type: Number, require: true },
+    quantity: { type: Number, require: true },
+    thanhtien: { type: Number, require: true },
+    date:{type:String,required:true},    
+},
+{
+    collection:'giohang' // xac dinh ten bang
+}
+);
+const sanphamMuaSchema = new db.mongoose.Schema({
+    image: { type: String, require: true },
+    title: { type: String, require: true },
+    pricegh: { type: Number, require: true },
+    quantity: { type: Number, require: true },
+    thanhtien: { type: Number, require: true },
+    date:{type:String,required:true},   
+    trangthai:  { type: String, require: true },   
+    size:  { type: String, require: true },  
+},
+{
+    collection:'sanphamMua' // xac dinh ten bang
+}
+);
+
 let binhluanModel = db.mongoose.model('binhluanModel', binhluanSchema);
 let productModel = db.mongoose.model('productModel', productSchema);
 let userModel = db.mongoose.model('userModel', userSchema);
+let giohangModel = db.mongoose.model('giohangModel', giohangSchema);
+let sanphamMuaModel = db.mongoose.model('sanphamMuaModel', sanphamMuaSchema);
+
+
 module.exports = {
-    productModel, binhluanModel, userModel
+    productModel, binhluanModel, userModel,giohangModel,sanphamMuaModel
 }

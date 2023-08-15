@@ -7,9 +7,16 @@ exports.listUser = async (req, res, next) => {
         status: 1,
         msg: "Danh sach user"
     }
+    let dieu_kien =null;
+    if(typeof(req.query._id)!='undefined'){
+        let _id =req.query._id;
+        dieu_kien={_id:_id};
+        console.log(dieu_kien);
+    }
+
     let list = [];
     try {
-        list = await UserModel.userModel.find();
+        list = await UserModel.userModel.find(dieu_kien);
         dataR.data = list;
 
     } catch (err) {
@@ -111,4 +118,59 @@ exports.loginUser = async (req, next, res) => {
         }
     }
     res.json(dataR);
+}
+
+exports.updateUsers = async (req,res,next)=>{
+    let data = {
+        status: 1,
+        msg: "update"
+    }
+
+    if(req.method =='PUT'){
+
+    
+        try{
+            await UserModel.userModel.updateOne({_id:req.params.iduser},
+                {$set: {username:  req.body.username, 
+                    passwd:  req.body.passwd,
+                    fullname: req.body.fullname,
+                    email:req.body.email,
+                    phanquyen : req.body.phanquyen}});
+            console.log(data);
+
+            console.log("Đã cập nhật thành công");
+           
+        }catch(err){
+            console.log(err);
+            data.msg = err.message;
+        }
+ 
+    }
+    res.json(data)
+
+}
+exports.listUsersUP = async (req,res,next) =>{
+    let dataR = {
+        msg: "list"
+    }
+
+    let dieu_kien =null;
+    if(typeof(req.query._id)!='undefined'){
+        let _id =req.query._id;
+        dieu_kien={_id:_id};
+        console.log(dieu_kien);
+    }
+    //code xử lý lấy danh sách
+    let list = []
+    try {
+        list = await UserModel.userModel.findById(req.params.iduser);
+        dataR.data = list;
+    }
+    catch (err) {
+        dataR.msg = err.message;
+    }
+
+    //trả về client
+    res.json(dataR);
+    console.log(dataR);
 }

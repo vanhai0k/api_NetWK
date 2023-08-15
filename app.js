@@ -9,6 +9,8 @@ var apiRouter = require('./routes/api');
 var userRouter = require('./routes/user');
 var productRouter= require('./routes/products');
 var commentRouter = require('./routes/comment')
+var giohangRouter = require('./routes/giohang');
+var sanphamMuaRouter = require('./routes/sanphamMua');
 
 var app = express();
 
@@ -28,6 +30,8 @@ app.use('/api',apiRouter);
 app.use('/user',userRouter);
 app.use('/product',productRouter);
 app.use('/comment', commentRouter);
+app.use('/giohang', giohangRouter);
+app.use('/sanphamMua', sanphamMuaRouter);
 
 
 // catch 404 and forward to error handler

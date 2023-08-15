@@ -5,21 +5,45 @@ exports.listProduct = async (req, res, next) => {
         status: 1,
         msg: "Danh sach san pham"
     }
-    let dieu_kien = null;
-    if(typeof(req.query.idproduct) != 'undefined'){
-        let idproduct = req.query.idproduct;
-        dieu_kien = {idproduct:idproduct}
+    let dieu_kien =null;
+    if(typeof(req.query.title)!='undefined'){
+        let title =req.query.title;
+        dieu_kien={title:title};
         console.log(dieu_kien);
     }
-
     let list = [];
     try {
-        list = await ProModel.productModel.find();
+        list = await ProModel.productModel.find(dieu_kien);
         dataR.data = list;
 
     } catch (err) {
         dataR.msg = err.message;
     }
+    //trả về client
+    res.json(dataR);
+    console.log(dataR);
+}
+exports.listProductUP = async (req,res,next) =>{
+    let dataR = {
+        msg: "list"
+    }
+
+    let dieu_kien =null;
+    if(typeof(req.query._id)!='undefined'){
+        let _id =req.query._id;
+        dieu_kien={_id:_id};
+        console.log(dieu_kien);
+    }
+    //code xử lý lấy danh sách
+    let list = []
+    try {
+        list = await ProModel.productModel.findById(req.params.idproduct);
+        dataR.data = list;
+    }
+    catch (err) {
+        dataR.msg = err.message;
+    }
+
     //trả về client
     res.json(dataR);
     console.log(dataR);
@@ -38,8 +62,8 @@ exports.AddPro = async (req, res, next) => {
         objPro.price = req.body.price;
         objPro.quantity = req.body.quantity;
         objPro.size = req.body.size;
-        objPro.datestart = req.body.datestart;
-        objPro.status = req.body.status;
+        // objPro.datestart = req.body.datestart;
+        // objPro.status = req.body.status;
         objPro.xuatsu = req.body.xuatsu;
         objPro.phongcach = req.body.phongcach;
         objPro.infomation = req.body.infomation;
@@ -63,10 +87,23 @@ exports.deletePro = async (req, res, next) => {
         status: 1,
         msg: "Xoa thanh cong"
     }
+    let dieu_kien =null;
+    if(typeof(req.query.id_product)!='undefined'){
+        let id_product =req.query.id_product;
+        dieu_kien={id_product:id_product};
+        console.log(dieu_kien);
+    }
+
+    let objComic = await ProModel.productModel.findById(  req.params.idproduct  );
+    let objComment = await ProModel.binhluanModel.find(dieu_kien)
+    console.log(objComment);
+    console.log("comment"+objComic);
 
     try {
 
-        await ProModel.productModel.findByIdAndDelete({ _id: req.params.id });
+        await ProModel.productModel.findByIdAndDelete({ _id: req.params.idproduct });
+        await ProModel.productModel.deleteMany({id_product:req.params.idproduct});
+
         console.log("Xoa thanh cong");
 
     } catch (err) {
@@ -93,8 +130,8 @@ exports.updatePro = async (req, res, next) => {
                      price : req.body.price,
                      quantity : req.body.quantity,
                      size : req.body.size,
-                     datestart : req.body.datestart,
-                     status : req.body.status,
+                    //  datestart : req.body.datestart,
+                    //  status : req.body.status,
                      xuatsu : req.body.xuatsu,
                      phongcach : req.body.phongcach,
                      infomation : req.body.infomation,
@@ -114,119 +151,5 @@ exports.updatePro = async (req, res, next) => {
 }
 
 
-exports.lisetComment = async (req,res,next) =>{
-    let dataR = {
-        status: 1,
-        msg: "Danh sach comment"
-    }
 
-    let list = [];
-    try {
-        list = await ProModel.binhluanModel.find();
-        dataR.data = list;
-
-    } catch (err) {
-        dataR.msg = err.message;
-    }
-    //trả về client
-    res.json(dataR);
-    console.log(dataR);
-
-}
-
-exports.postComment = async (req,res,next) =>{
-    let dataR = {
-        status: 1,
-        msg: "Post comment"
-    }
-
-    if(req.method == 'POST'){
-        let obj = ProModel.binhluanModel();
-
-        // obj.idproduct = req.body.idproduct;
-        obj.iduser = req.body.iduser;
-        obj.comment = req.body.comment;
-
-        try{
-            let new_commnent = await obj.save();
-
-            console.log(new_commnent);
-            console.log("Post comment");
-        }catch(err){
-            console.log(err);
-            msg ='Lỗi '+ error.message;
-        }
-    }
-    res.json(dataR);
-    console.log(dataR);
-}
-
-exports.deleteComment = async (req, res, next) => {
-    let dataR = {
-        status: 1,
-        msg: "Xoa thanh cong"
-    }
-
-    try {
-
-        await ProModel.binhluanModel.findByIdAndDelete({ _id: req.params.id });
-        console.log("Xoa thanh cong");
-
-    } catch (err) {
-        console.log(err);
-        dataR.msg = err.message;
-    }
-    res.json(dataR);
-    console.log(dataR);
-}
-
-exports.updateComment = async (req, res, next) => {
-    let dataR = {
-        status: 1,
-        msg: "Da cap nhap!!!"
-    }
-    if (req.method == 'PUT') {
-
-        try {
-
-            await ProModel.binhluanModel.updateOne({ _id: req.params.id },
-            {
-                $set: {
-                    idproduct: req.body.idproduct,
-                    iduser: req.body.iduser,
-                     comment : req.body.comment
-
-                }
-            });
-            console.log(dataR);
-            console.log("Cap nhap thanh cong");
-
-        } catch (err) {
-            console.log(err);
-            dataR.msg = err.message;
-        }
-    }
-    res.json(dataR);
-    console.log(dataR);
-}
-
-exports.getKiemComment = async (req,res,next) =>{
-    let dataR = {
-        status: 1,
-        msg: "Danh sach comment"
-    }
-
-    const idproduct = req.params.idproduct;
-    try {
-        const comments = await Comment.find({idproduct});
-        res.json(comments);
-    } catch (err) {
-        console.error("Error fetching users:", err);
-        res.status(500).send("Internal Server Error");
-    }
-    res.json(dataR);
-    console.log(dataR);
-
-
-}
 
