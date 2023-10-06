@@ -1,5 +1,7 @@
 const { error } = require('console');
 const UserModel = require('../models/model.model');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 
 exports.listUser = async (req, res, next) => {
@@ -35,7 +37,10 @@ exports.AddUser = async (req, res, next) => {
 
     if (req.method == 'POST') {
 
-
+        // let ovjproduct = await UserModel.userModel.findOne({username})
+        if(!ovjproduct){
+            res.status("Trung ten tai khoan");
+        }
         let objPro = new UserModel.userModel();
         // if(objPro != null){
         objPro.image = req.body.image;
@@ -83,43 +88,6 @@ exports.deleteUser = async (req, res, next) => {
     res.json(dataR);
     console.log(dataR);
 }
-exports.loginUser = async (req, next, res) => {
-    let dataR = {
-        status: 1,
-        msg: "login"
-    }
-    let msg = '';
-    let msg1 = '';
-    if (req.method == "POST") {
-        console.log(req.body);
-        try {
-            let objUser = await UserModel.userModel.findOne({ username: req.body.username });
-            console.log(objUser);
-            if (objUser != null) {
-                //lấy được thông tìn tài khoản =>> ktra pass ửod
-                if (objUser.passwd == req.body.passwd && objUser.role == "Admin") {
-                    //đúng thông tin tài khoản, đăng nhập thành công
-                    //lưu thông tin vào session
-                    req.session.userLogin = objUser;
-                    console.log(req.session.userLogin);
-                    return res.redirect('/');
-                } else if (objUser.passwd == req.body.passwd && objUser.role == "User") {
-                    msg1 = "Bạn không có quyền truy cập"
-                } else {
-                    msg = ("Vui lòng kiểm tra lại mật khẩu");
-                }
-            } else {
-                msg = "Tài khoản không tồn tại"
-            }
-
-        } catch (err) {
-            console.log(err);
-            dataR.msg = err.message;
-        }
-    }
-    res.json(dataR);
-}
-
 exports.updateUsers = async (req,res,next)=>{
     let data = {
         status: 1,
@@ -174,3 +142,29 @@ exports.listUsersUP = async (req,res,next) =>{
     res.json(dataR);
     console.log(dataR);
 }
+exports.reg = async (req, res, next) => {
+    try {
+  const { username, passwd, image,email,phanquyen } = req.body;
+
+  // Kiểm tra xem tên người dùng đã tồn tại chưa
+  const existingUser = await UserModel.userModel.findOne({ username });
+  if (existingUser) {
+    return res.status(400).json({ message: 'Tên người dùng đã tồn tại' });
+  }
+
+  // Mã hóa mật khẩu
+  const hashedPassword = await bcrypt.hash(passwd, 10);
+
+  // Tạo người dùng mới
+  const user = new UserModel.userModel({ username, passwd: hashedPassword, image,email,phanquyen });
+  await user.save();
+
+  res.status(201).json({ message: 'Đăng ký thành công' });
+} catch (error) {
+  console.error('Đăng ký thất bại:', error);
+  res.status(500).json({ message: 'Đăng ký thất bại' });
+}
+
+}
+
+

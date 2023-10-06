@@ -1,0 +1,122 @@
+.body{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 90px 1fr;
+    height: 100vh;
+    background-image: url(https://i.pinimg.com/564x/01/e8/62/01e86266dece3cbe92bafc0edc75a32b.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',Geneva, Verdana, sans-serif;
+
+    }
+nav {
+    grid-column: 1/2;
+    grid-row: 1/2; display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 90px;
+    background-color: rgba(49, 48, 48, 0.637);
+    backdrop-filter: blur(5px);
+    }
+.logo{ grid-column: 1/2;
+    grid-row: 1/2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logo img{
+    width: 60px; height: 60px; border-radius: 100%;
+}
+.navlist{
+    grid-column: 2/3; 
+    grid-row: 1/2; 
+    display: flex; 
+    justify-content: flex-end; align-items: center;
+}
+.myList{
+    display: flex; justify-content: flex-end; margin-right: 250px;
+}
+.list li{
+    display: inline-flex; margin-right: 80px; list-style: none;
+}
+.list li a{
+    font-size: 18px; color: whitesmoke;
+    text-decoration: none;
+}
+#signIn{
+    padding: 10px 15px; border-radius: 20px; color: whitesmoke;
+    background-color: rgb(21, 21, 21);
+}
+content{
+    grid-column: 1/2; grid-row: 2/3; display: flex;
+    align-items: center; justify-content: center;
+}
+.loginForm{
+    display: grid;
+    grid-template-columns: 1/2;
+    grid-template-rows: 100px 200px 20px; border-radius: 20px;
+    border: 2px solid rgb(49, 49, 49); width: 350px; height: 350px;
+    background-color: rgba(211, 119, 119, 0.388); backdrop-filter: blur(20px); box-shadow: 2px 5px 15px black;
+}
+.login{
+    grid-column: 1/2; grid-row: 1/2; display: flex;
+    justify-content: center; align-items: center; color: rgb(10, 10, 10);
+}
+.inputForm{
+    grid-column: 1/2; grid-row: 2/3; display: grid;
+    align-items: center; justify-content: center;
+}
+.userForm {
+    border-bottom: 1px solid rgb(72, 71, 71); background-color: transparent; padding-bottom: 3px;
+    }
+#user{
+    background-color: transparent;
+    border: none; outline: none; font-size: 15px;
+    transition: all 0.3s ease; margin-left: 5px; letter-spacing: 2px;
+    }
+#user ::placeholder{
+    color: black; font-size: 16px;
+}
+.login{
+    grid-column: 1/2; grid-row: 1/2; display: flex;
+    justify-content: center; align-items: center; color: rgb(10, 10, 10);
+}
+.inputForm{
+    grid-column: 1/2; grid-row: 2/3; display: grid;
+    align-items: center; justify-content: center;
+    }
+.userForm , .passForm{ border-bottom: 1px solid rgb(72, 71, 71); 
+    background-color: transparent; padding-bottom: 3px;margin-bottom: 15px;
+}
+#user, #pass{
+    background-color: transparent;
+    border: none; outline: none; font-size: 15px;
+    transition: all 0.3s ease; margin-left: 5px; letter-spacing: 2px;
+    }
+#user ::placeholder, #pass ::placeholder{
+    color: black; font-size: 16px;
+}    
+#forgotText{
+    color: rgb(20, 20, 20); font-size: 15px;
+    margin-left: 5px;
+}
+#loginBtn{
+    background-color: rgb(19, 19, 19); color: whitesmoke; font-size: 16px; height: 35px; border: none;
+    outline: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    padding: 10px;
+    margin-left: 90px;
+    width: 100px;
+}
+#loginBtn:active{
+    background-color: rgb(48, 47, 47);
+}
+.footer{
+    grid-column: 1/2; grid-row: 3/4; display: flex;
+    align-items: center; justify-content: center;
+}
+#signUp{
+    color: rgb(254, 254, 254);
+    text-decoration: none;
+}

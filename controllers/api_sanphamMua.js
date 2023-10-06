@@ -26,6 +26,13 @@ exports.listUser = async (req, res, next) => {
     res.json(dataR);
     console.log(dataR);
 }
+const date = new Date();
+
+const year = date.getFullYear();
+const month = date.getMonth() + 1; // Tháng trong JavaScript bắt đầu từ 0, nên cần cộng thêm 1
+const day = date.getDate();
+
+const formattedDate = `${day}/${month}/${year}`;
 
 exports.AddUser = async (req, res, next) => {
     let dataR = {
@@ -36,6 +43,7 @@ exports.AddUser = async (req, res, next) => {
     if (req.method == 'POST') {
 
 
+
         let objPro = new SanphamMua.sanphamMuaModel();
         // if(objPro != null){
             objPro.image = req.body.image;
@@ -43,7 +51,7 @@ exports.AddUser = async (req, res, next) => {
             objPro.pricegh = req.body.pricegh;
             objPro.quantity = req.body.quantity;
             objPro.thanhtien = req.body.thanhtien;
-            objPro.date = new Date();
+            objPro.date = formattedDate
             objPro.trangthai = "Chờ duyệt đơn hàng";
             objPro.size = req.body.size;
             
@@ -143,4 +151,30 @@ exports.listUsersUP = async (req,res,next) =>{
     //trả về client
     res.json(dataR);
     console.log(dataR);
+}
+
+exports.sumprice = async (req, res, next) => {
+    try {
+        const result = await SanphamMua.sanphamMuaModel.aggregate([
+          { $group: { _id: null, totalAmount: { $sum: '$thanhtien' } } },
+        ]);
+        res.json(result[0]);
+      } catch (err) {
+        console.log('Lỗi khi thống kê tổng số tiền:', err);
+        res.status(500).json({ error: 'Lỗi khi thống kê tổng số tiền' });
+      }
+}
+exports.sumdate = async (req,res,next) =>{
+
+    const { startDate, endDate } = req.query;
+
+    const transactions = await SanphamMua.sanphamMuaModel.find({
+      date: { $gte: startDate, $lte: endDate }
+    });
+   
+    const totalAmount = transactions.reduce((total, transaction) => {
+      return total + transaction.thanhtien;
+    }, 0);
+   
+    res.status(200).json({ totalAmount });
 }

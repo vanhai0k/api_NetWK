@@ -1,0 +1,15 @@
+.container{
+    width: 230px ;
+    height: 320px ;
+    border: 1px solid #dcdcdc;
+    margin: auto;
+}
+.kieuchu{
+    font-size: 18px ;
+    margin: 8px; 
+}
+#anh-cua-ban:hover {
+    transform: scaleX(-1);
+}
+
+

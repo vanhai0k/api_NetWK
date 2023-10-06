@@ -4,18 +4,31 @@ const GiohangModel = require('../models/model.model');
 exports.listUser = async (req, res, next) => {
     let dataR = {
         status: 1,
-        msg: "Danh sach user"
+        msg: "Gio hang"
     }
     let dieu_kien =null;
-    if(typeof(req.query._id)!='undefined'){
-        let _id =req.query._id;
-        dieu_kien={_id:_id};
+    if(typeof(req.query.id_user)!='undefined'){
+        let id_user =req.query.id_user;
+        dieu_kien={id_user:id_user};
         console.log(dieu_kien);
     }
+    //code xử lý lấy danh sách
+    // let list = []
+    // try {
+    //     list = await MyModel.commentModel.find(dieu_kien).populate("id_user");
+    //     dataR.data = list;
+    // }
+
+    // let dieu_kien =null;
+    // if(typeof(req.query.title)!='undefined'){
+    //     let title =req.query.title;
+    //     dieu_kien={title:title};
+    //     console.log(dieu_kien);
+    // }
 
     let list = [];
     try {
-        list = await GiohangModel.giohangModel.find(dieu_kien);
+        list = await GiohangModel.giohangModel.find(dieu_kien).populate("id_user").populate("id_product");
         dataR.data = list;
 
     } catch (err) {
@@ -43,6 +56,8 @@ exports.AddUser = async (req, res, next) => {
             objPro.quantity = req.body.quantity;
             objPro.thanhtien = req.body.thanhtien;
             objPro.date = new Date();
+            objPro.id_user = req.body.id_user;
+            objPro.id_product  = req.body.id_product;
         // }else{
         //     console.log("Da co tai khoan");
         // }

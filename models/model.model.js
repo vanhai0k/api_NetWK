@@ -44,7 +44,10 @@ const giohangSchema = new db.mongoose.Schema({
     pricegh: { type: Number, require: true },
     quantity: { type: Number, require: true },
     thanhtien: { type: Number, require: true },
-    date:{type:String,required:true},    
+    date:{type:String,required:true}, 
+    // moi them
+    id_user: {type: db.mongoose.Schema.Types.ObjectId, ref: 'userModel'},   
+    id_product: {type: db.mongoose.Schema.Types.ObjectId,ref:'productModel'},
 },
 {
     collection:'giohang' // xac dinh ten bang
@@ -65,13 +68,23 @@ const sanphamMuaSchema = new db.mongoose.Schema({
 }
 );
 
+const messageSchema = new db.mongoose.Schema({
+    content: { type: String, require: true },
+    timestamp: { type: Date, default: Date.now },
+    id_user: {type: db.mongoose.Schema.Types.ObjectId, ref: 'userModel'},   
+  },
+  {
+    collection: "message", // xac dinh ten colection trong csdl
+  });
+
 let binhluanModel = db.mongoose.model('binhluanModel', binhluanSchema);
 let productModel = db.mongoose.model('productModel', productSchema);
 let userModel = db.mongoose.model('userModel', userSchema);
 let giohangModel = db.mongoose.model('giohangModel', giohangSchema);
 let sanphamMuaModel = db.mongoose.model('sanphamMuaModel', sanphamMuaSchema);
-
+let messageModel = db.mongoose.model("messageModel", messageSchema);
 
 module.exports = {
-    productModel, binhluanModel, userModel,giohangModel,sanphamMuaModel
+    productModel, binhluanModel, userModel,giohangModel,sanphamMuaModel,
+    messageModel
 }
