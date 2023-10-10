@@ -31,6 +31,9 @@ const userSchema = new db.mongoose.Schema(
         passwd: {type:String, require:true},
         email: {type:String, require:true},
         phanquyen: {type:String,required:true},
+        phone: {type:String, require:true},
+        gioitinh: {type:String, require:true},
+        ngaysinh: {type:String, require:true}
 
     },
     {

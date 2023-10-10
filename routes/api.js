@@ -23,7 +23,7 @@ router.delete('/users/delete/:idproduct', apiPro.deletePro)
 router.put('/users/delete/:idproduct', apiPro.listProductUP);
 
 // thong ke
-router.get('/transaction/report', apisanphamMua.sumdate)
+router.get('/transaction', apisanphamMua.sumdate)
 
 
 //-------------------------------
@@ -83,8 +83,8 @@ router.put('/user/update/:iduser', apiUser.listUser)
 router.delete('/user/delete/:id', apiUser.deleteUser)
 
 // update
-router.get('/users/update/:iduser', apiUser.listUsersUP);
-router.put('/user/update/:iduser', apiUser.updateUsers)
+router.get('/user/update/:iduser', apiUser.listUsersUP);
+router.put('/user/updateUser/:id', apiUser.updateUsers)
 // --------------------------------------
 
 // comment

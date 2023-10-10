@@ -101,8 +101,6 @@ exports.updateUsers = async (req,res,next)=>{
     }
 
     if(req.method =='PUT'){
-
-    
         try{
             await SanphamMua.sanphamMuaModel.updateOne({_id:req.params.iduser},
                 {$set: {
@@ -173,7 +171,7 @@ exports.sumdate = async (req,res,next) =>{
     });
    
     const totalAmount = transactions.reduce((total, transaction) => {
-      return total + transaction.thanhtien;
+      return total + transaction.thanhtien ;
     }, 0);
    
     res.status(200).json({ totalAmount });

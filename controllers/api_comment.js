@@ -14,19 +14,6 @@ exports.lisetComment = async (req,res,next) =>{
         dieu_kien={id_product:id_product};
         console.log(dieu_kien);
     }
-    //code xử lý lấy danh sách
-    // let list = []
-    // try {
-    //     list = await MyModel.commentModel.find(dieu_kien).populate("id_user");
-    //     dataR.data = list;
-    // }
-
-    // let dieu_kien =null;
-    // if(typeof(req.query.title)!='undefined'){
-    //     let title =req.query.title;
-    //     dieu_kien={title:title};
-    //     console.log(dieu_kien);
-    // }
 
     let list = [];
     try {
